@@ -6,6 +6,7 @@ const GlobalStyles = createGlobalStyle`
         padding:0;
         font-family: 'Roboto', sans-serif;
         
+        
     }
 
     :root{
