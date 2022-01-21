@@ -1,5 +1,5 @@
 import React, { FormEvent, useEffect, useRef, useState } from "react";
-import api from "../../services/api";
+import {apiRestCountries, apiLocal} from "../../services/api";
 import { Container, InputContainer } from "./styles";
 import InputMask, {ReactInputMask} from 'react-input-mask'
 interface ApiResponse {
@@ -15,7 +15,7 @@ const SearchSection: React.FC = () => {
   const inputLocalRef = useRef<HTMLInputElement>(null);
   const inputCountryRef = useRef<HTMLSelectElement>(null);
   useEffect(() => {
-    api.get("all").then((response) => {
+    apiRestCountries.get("all").then((response) => {
       setCountries(response.data);
     });
   }, []);
@@ -42,14 +42,19 @@ const SearchSection: React.FC = () => {
     })
     const flag = country[0].flag
    
-    const data = {
-      countrySelected,
-      local,
-      goal,
-      flag
-    };
 
-   console.log(data)
+
+    await apiLocal.post('cards',{
+      country:countrySelected,
+      flag,
+      local,
+      goal
+    }).then((response)=>{
+      console.log(response.data);
+      
+    })
+
+   
   }
 
   
@@ -80,12 +85,12 @@ const SearchSection: React.FC = () => {
         <InputContainer>
           <label htmlFor="goal">Meta</label>
           
-          <InputMask
-            inputRef={inputGoalRef}
+          <input
+            ref={inputGoalRef}
             type="text"
             id="goal"
             placeholder="mês/ano"
-            mask={'99/9999'}
+           
             required
             
           />
