@@ -1,7 +1,7 @@
 import React, { FormEvent, useEffect, useRef, useState } from "react";
-import {apiRestCountries, apiLocal} from "../../services/api";
+import { apiRestCountries, apiLocal } from "../../services/api";
 import { Container, InputContainer } from "./styles";
-import InputMask, {ReactInputMask} from 'react-input-mask'
+import InputMask from "react-input-mask";
 import { useFetch } from "../../hooks/useFetch";
 import { CardProps } from "../../types/card";
 import ToastFunction from "../../utils/toast";
@@ -13,16 +13,12 @@ interface ApiResponse {
   };
 }
 
-
-
 const SearchSection: React.FC = () => {
   const [countries, setCountries] = useState<ApiResponse[]>([]);
-  const inputGoalRef = useRef<HTMLInputElement>(null);
   const inputLocalRef = useRef<HTMLInputElement>(null);
   const inputCountryRef = useRef<HTMLSelectElement>(null);
-
-  const {mutate,data} = useFetch('cards')
-
+  const [goalInput, setGoalInput] = useState<string>("");
+  const { mutate, data } = useFetch("cards");
 
   useEffect(() => {
     apiRestCountries.get("all").then((response) => {
@@ -30,69 +26,53 @@ const SearchSection: React.FC = () => {
     });
   }, []);
 
-
-
-
-
   async function handleAddGoal(event: FormEvent) {
     event.preventDefault();
 
     const countrySelected = inputCountryRef.current?.value;
     const local = inputLocalRef.current?.value;
-    const goal = inputGoalRef.current?.value;
-    
+    const goal = goalInput;
 
-    const country  = countries.filter((country) => {
-      if(country.translations.br === countrySelected){
+    const country = countries.filter((country) => {
+      if (country.translations.br === countrySelected) {
         return {
-          flag:country.flag
-        }
+          flag: country.flag,
+        };
       }
       return null;
-    })
-    const flag = country[0].flag
-   
+    });
+    const flag = country[0].flag;
 
-
-    await apiLocal.post<CardProps>('cards',{
-      country:countrySelected,
-      flag,
-      local,
-      goal
-    }).then((response)=>{
-      const newCard={
-        id:response.data.id,
-        country:countrySelected,
+    await apiLocal
+      .post<CardProps>("cards", {
+        country: countrySelected,
+        flag,
         local,
-        goal:goal,
-        flag:flag
-      }
+        goal,
+      })
+      .then((response) => {
+        const newCard = {
+          id: response.data.id,
+          country: countrySelected,
+          local,
+          goal: goal,
+          flag: flag,
+        };
 
-     const newList:CardProps[] = [];
+        const newList: CardProps[] = [];
 
-     data?.map((card)=>{
-      return newList.push(card)
-      
-     })
+        data?.map((card) => {
+          return newList.push(card);
+        });
 
-     newList.push(newCard)
-     
-     
+        newList.push(newCard);
 
-     mutate(newList,false)
+        mutate(newList, false);
 
-     ToastFunction("Meta adicionada com sucesso!!")
-      
-    })
-
-   
-
-
-
-   
+        ToastFunction("Meta adicionada com sucesso!!");
+      });
   }
 
-  
   return (
     <Container>
       <form onSubmit={handleAddGoal}>
@@ -119,17 +99,15 @@ const SearchSection: React.FC = () => {
         </InputContainer>
         <InputContainer>
           <label htmlFor="goal">Meta</label>
-          
-          <input
-            ref={inputGoalRef}
+
+          <InputMask
+            onChange={(e) => setGoalInput(e.target.value)}
             type="text"
             id="goal"
             placeholder="mês/ano"
-           
+            mask="99/9999"
             required
-            
           />
-           
         </InputContainer>
 
         <button>Adicionar</button>

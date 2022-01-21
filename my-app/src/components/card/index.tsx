@@ -5,14 +5,14 @@ import { apiLocal } from "../../services/api";
 import { CardProps } from "../../types/card";
 import { useFetch } from "../../hooks/useFetch";
 import ToastFunction from "../../utils/toast";
-
+import InputMask from 'react-input-mask'
 
 
 const Card: React.FC<CardProps> = ({ country, local, goal, flag, id }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const {data,mutate} = useFetch('cards')
+  const [goalInput,setGoalInput] = useState<string>('')
   const inputEditLocalRef = useRef<HTMLInputElement>(null);
-  const inputEditGoalRef = useRef<HTMLInputElement>(null)
   const handleRemoveCard = (id: number): void => {
     apiLocal.delete(`cards/${id}`).then((response) => {
       
@@ -36,7 +36,7 @@ const Card: React.FC<CardProps> = ({ country, local, goal, flag, id }) => {
 
   const handleUpdateCard = (id: number): void => {
     const local = inputEditLocalRef.current?.value
-    const goal = inputEditGoalRef.current?.value
+    const goal = goalInput
     apiLocal
       .put(`cards/${id}`, {
         flag,
@@ -57,6 +57,7 @@ const Card: React.FC<CardProps> = ({ country, local, goal, flag, id }) => {
 
       setIsEditing(false);
   };
+  
 
   return (
     <Container>
@@ -94,7 +95,16 @@ const Card: React.FC<CardProps> = ({ country, local, goal, flag, id }) => {
         {isEditing ? (
           <>
             <input type="text" defaultValue={local} ref={inputEditLocalRef} />
-            <input type="text" defaultValue={goal} ref={inputEditGoalRef} />
+            <InputMask
+            onChange={(e)=>setGoalInput(e.target.value)}
+            type="text"
+            id="goal"
+            placeholder="mês/ano"
+            mask="99/9999"
+            defaultValue={goal}
+            required
+            
+          />
           </>
         ) : (
           <>
