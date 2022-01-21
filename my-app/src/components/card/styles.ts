@@ -14,7 +14,13 @@ export const Container = styled.div`
         justify-content: end;
 
         svg{
+            cursor:pointer;
             margin:5px 10px;
+
+            &:hover{
+                opacity:.7;
+                transition:.7s ease;
+            }
         }
     }
 
