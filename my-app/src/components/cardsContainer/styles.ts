@@ -8,7 +8,7 @@ export const Container = styled.section`
     padding:20px 40px;
     margin-top:40px;
     gap:30px;
-
+    justify-content:center;
 
     
 

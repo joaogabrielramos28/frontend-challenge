@@ -1,20 +1,6 @@
 {
   "cards": [
     {
-      "flag": "https://flagcdn.com/ca.svg",
-      "country": "Canadá",
-      "local": "ottawa",
-      "goal": "05/2026",
-      "id": 3
-    },
-    {
-      "country": "Estados Unidos",
-      "flag": "https://flagcdn.com/us.svg",
-      "local": "Orlando",
-      "goal": "05/2022",
-      "id": 4
-    },
-    {
       "country": "Estados Unidos",
       "flag": "https://flagcdn.com/us.svg",
       "local": "Tampa",
