@@ -4,6 +4,7 @@ import { MdModeEdit, MdClose, MdSave } from "react-icons/md";
 import { apiLocal } from "../../services/api";
 import { CardProps } from "../../types/card";
 import { useFetch } from "../../hooks/useFetch";
+import ToastFunction from "../../utils/toast";
 
 
 
@@ -21,7 +22,7 @@ const Card: React.FC<CardProps> = ({ country, local, goal, flag, id }) => {
         }
         return null;
       })
-
+      ToastFunction("Meta removida com sucesso!!")
       mutate(newList,false)
     });
   };
@@ -46,12 +47,12 @@ const Card: React.FC<CardProps> = ({ country, local, goal, flag, id }) => {
       .then((response) => {
         const newList = data?.map((card)=>{
           if(card.id === id){
-            return {...card,flag:flag,local:local}
+            return {...card,goal:goal,local:local}
           }
           return card;
         })
-
         mutate(newList,false)
+        ToastFunction("Meta editada com sucesso!!")
       });
 
       setIsEditing(false);

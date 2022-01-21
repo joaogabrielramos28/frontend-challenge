@@ -4,6 +4,7 @@ import { Container, InputContainer } from "./styles";
 import InputMask, {ReactInputMask} from 'react-input-mask'
 import { useFetch } from "../../hooks/useFetch";
 import { CardProps } from "../../types/card";
+import ToastFunction from "../../utils/toast";
 interface ApiResponse {
   numericCode: string;
   flag: string;
@@ -79,6 +80,8 @@ const SearchSection: React.FC = () => {
      
 
      mutate(newList,false)
+
+     ToastFunction("Meta adicionada com sucesso!!")
       
     })
 
