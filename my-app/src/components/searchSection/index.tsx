@@ -2,6 +2,8 @@ import React, { FormEvent, useEffect, useRef, useState } from "react";
 import {apiRestCountries, apiLocal} from "../../services/api";
 import { Container, InputContainer } from "./styles";
 import InputMask, {ReactInputMask} from 'react-input-mask'
+import { useFetch } from "../../hooks/useFetch";
+import { CardProps } from "../../types/card";
 interface ApiResponse {
   numericCode: string;
   flag: string;
@@ -9,11 +11,18 @@ interface ApiResponse {
     br: string;
   };
 }
+
+
+
 const SearchSection: React.FC = () => {
   const [countries, setCountries] = useState<ApiResponse[]>([]);
   const inputGoalRef = useRef<HTMLInputElement>(null);
   const inputLocalRef = useRef<HTMLInputElement>(null);
   const inputCountryRef = useRef<HTMLSelectElement>(null);
+
+  const {mutate,data} = useFetch('cards')
+
+
   useEffect(() => {
     apiRestCountries.get("all").then((response) => {
       setCountries(response.data);
@@ -38,21 +47,44 @@ const SearchSection: React.FC = () => {
           flag:country.flag
         }
       }
-      return '';
+      return null;
     })
     const flag = country[0].flag
    
 
 
-    await apiLocal.post('cards',{
+    await apiLocal.post<CardProps>('cards',{
       country:countrySelected,
       flag,
       local,
       goal
     }).then((response)=>{
-      console.log(response.data);
+      const newCard={
+        id:response.data.id,
+        country:countrySelected,
+        local,
+        goal:goal,
+        flag:flag
+      }
+
+     const newList:CardProps[] = [];
+
+     data?.map((card)=>{
+      return newList.push(card)
+      
+     })
+
+     newList.push(newCard)
+     
+     
+
+     mutate(newList,false)
       
     })
+
+   
+
+
 
    
   }

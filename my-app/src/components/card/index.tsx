@@ -2,23 +2,27 @@ import React, { useState,useRef } from "react";
 import { Container } from "./styles";
 import { MdModeEdit, MdClose, MdSave } from "react-icons/md";
 import { apiLocal } from "../../services/api";
+import { CardProps } from "../../types/card";
+import { useFetch } from "../../hooks/useFetch";
 
-interface CardProps {
-  countryName: string;
-  local: string;
-  goal: string;
-  flag: string;
-  id: number;
-}
 
-const Card: React.FC<CardProps> = ({ countryName, local, goal, flag, id }) => {
+
+const Card: React.FC<CardProps> = ({ country, local, goal, flag, id }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
-
+  const {data,mutate} = useFetch('cards')
   const inputEditLocalRef = useRef<HTMLInputElement>(null);
   const inputEditGoalRef = useRef<HTMLInputElement>(null)
   const handleRemoveCard = (id: number): void => {
     apiLocal.delete(`cards/${id}`).then((response) => {
-      console.log(response.data);
+      
+      const newList = data?.filter((card)=>{
+        if(card.id !== id){
+          return card
+        }
+        return null;
+      })
+
+      mutate(newList,false)
     });
   };
   const handleEditModeOn = () => {
@@ -35,12 +39,19 @@ const Card: React.FC<CardProps> = ({ countryName, local, goal, flag, id }) => {
     apiLocal
       .put(`cards/${id}`, {
         flag,
-        country: countryName,
+        country,
         local,
         goal,
       })
       .then((response) => {
-        console.log(response.data);
+        const newList = data?.map((card)=>{
+          if(card.id === id){
+            return {...card,flag:flag,local:local}
+          }
+          return card;
+        })
+
+        mutate(newList,false)
       });
 
       setIsEditing(false);
@@ -72,8 +83,8 @@ const Card: React.FC<CardProps> = ({ countryName, local, goal, flag, id }) => {
       </div>
 
       <div className="country-info">
-        <img src={flag} alt={`Bandeira ${countryName} `} />
-        <h3>{countryName}</h3>
+        <img src={flag} alt={`Bandeira ${country} `} />
+        <h3>{country}</h3>
       </div>
 
       <hr />
