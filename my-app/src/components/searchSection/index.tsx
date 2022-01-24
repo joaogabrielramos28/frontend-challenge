@@ -32,45 +32,49 @@ const SearchSection: React.FC = () => {
     const countrySelected = inputCountryRef.current?.value;
     const local = inputLocalRef.current?.value;
     const goal = goalInput;
-
-    const country = countries.filter((country) => {
-      if (country.translations.br === countrySelected) {
-        return {
-          flag: country.flag,
-        };
-      }
-      return null;
-    });
-    const flag = country[0].flag;
-
-    await apiLocal
-      .post<CardProps>("cards", {
-        country: countrySelected,
-        flag,
-        local,
-        goal,
-      })
-      .then((response) => {
-        const newCard = {
-          id: response.data.id,
-          country: countrySelected,
-          local,
-          goal: goal,
-          flag: flag,
-        };
-
-        const newList: CardProps[] = [];
-
-        data?.map((card) => {
-          return newList.push(card);
-        });
-
-        newList.push(newCard);
-
-        mutate(newList, false);
-
-        ToastFunction("Meta adicionada com sucesso!!");
+    try{
+      const country = countries.filter((country) => {
+        if (country.translations.br === countrySelected) {
+          return {
+            flag: country.flag,
+          };
+        }
+        return null;
       });
+      const flag = country[0].flag;
+  
+      await apiLocal
+        .post<CardProps>("cards", {
+          country: countrySelected,
+          flag,
+          local,
+          goal,
+        })
+        .then((response) => {
+          const newCard = {
+            id: response.data.id,
+            country: countrySelected,
+            local,
+            goal: goal,
+            flag: flag,
+          };
+  
+          const newList: CardProps[] = [];
+  
+          data?.map((card) => {
+            return newList.push(card);
+          });
+  
+          newList.push(newCard);
+  
+          mutate(newList, false);
+  
+          ToastFunction("Meta adicionada com sucesso!!");
+        });
+    }catch {
+      ToastFunction("Erro ao adicionar meta!",'error')
+    }
+    
   }
 
   return (
