@@ -11,20 +11,24 @@ import InputMask from 'react-input-mask'
 const Card: React.FC<CardProps> = ({ country, local, goal, flag, id }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const {data,mutate} = useFetch('cards')
-  const [goalInput,setGoalInput] = useState<string>('')
+  const [goalInput,setGoalInput] = useState<string>(goal || '')
   const inputEditLocalRef = useRef<HTMLInputElement>(null);
   const handleRemoveCard = (id: number): void => {
-    apiLocal.delete(`cards/${id}`).then((response) => {
+    try{
+      apiLocal.delete(`cards/${id}`).then((response) => {
       
-      const newList = data?.filter((card)=>{
-        if(card.id !== id){
-          return card
-        }
-        return null;
-      })
-      ToastFunction("Meta removida com sucesso!!")
-      mutate(newList,false)
-    });
+        const newList = data?.filter((card)=>{
+          if(card.id !== id){
+            return card
+          }
+          return null;
+        })
+        ToastFunction("Meta removida com sucesso!!")
+        mutate(newList,false)
+      });
+    }catch{
+      ToastFunction('Erro ao deletar meta!','error')
+    }
   };
   const handleEditModeOn = () => {
     setIsEditing(true);
@@ -37,14 +41,15 @@ const Card: React.FC<CardProps> = ({ country, local, goal, flag, id }) => {
   const handleUpdateCard = (id: number): void => {
     const local = inputEditLocalRef.current?.value
     const goal = goalInput
-    apiLocal
+    try{
+      apiLocal
       .put(`cards/${id}`, {
         flag,
         country,
         local,
         goal,
       })
-      .then((response) => {
+      .then(() => {
         const newList = data?.map((card)=>{
           if(card.id === id){
             return {...card,goal:goal,local:local}
@@ -56,6 +61,9 @@ const Card: React.FC<CardProps> = ({ country, local, goal, flag, id }) => {
       });
 
       setIsEditing(false);
+    }catch{
+      ToastFunction('Erro ao editar meta!','error')
+    }
   };
   
 
@@ -106,6 +114,7 @@ const Card: React.FC<CardProps> = ({ country, local, goal, flag, id }) => {
             defaultValue={goal}
             required
             data-testid="input-edit"
+            
             
           />
           </>

@@ -32,6 +32,7 @@ const SearchSection: React.FC = () => {
     const countrySelected = inputCountryRef.current?.value;
     const local = inputLocalRef.current?.value;
     const goal = goalInput;
+    
     try{
       const country = countries.filter((country) => {
         if (country.translations.br === countrySelected) {
@@ -100,6 +101,7 @@ const SearchSection: React.FC = () => {
             id="local"
             placeholder="Digite o local que deseja conhecer"
             required
+
           />
         </InputContainer>
         <InputContainer>
@@ -113,6 +115,7 @@ const SearchSection: React.FC = () => {
             placeholder="mês/ano"
             mask="99/9999"
             required
+           
           />
         </InputContainer>
 

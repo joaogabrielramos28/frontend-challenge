@@ -1,25 +1,3 @@
 {
-  "cards": [
-    {
-      "flag": "https://flagcdn.com/ai.svg",
-      "country": "Anguila",
-      "local": "123",
-      "goal": "",
-      "id": 1
-    },
-    {
-      "flag": "https://flagcdn.com/ai.svg",
-      "country": "Anguila",
-      "local": "123",
-      "goal": "",
-      "id": 2
-    },
-    {
-      "flag": "https://flagcdn.com/ai.svg",
-      "country": "Anguila",
-      "local": "123",
-      "goal": "",
-      "id": 3
-    }
-  ]
+  "cards": []
 }
