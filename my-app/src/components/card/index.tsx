@@ -64,7 +64,7 @@ const Card: React.FC<CardProps> = ({ country, local, goal, flag, id }) => {
       <div className="actions">
         {isEditing ? (
           <>
-          <MdSave size={24} color={"#868686"} onClick={()=>(handleUpdateCard(id))} />
+          <MdSave size={24} color={"#868686"} onClick={()=>(handleUpdateCard(id))} data-testid="saveButton" />
           <MdClose size={24} color={"#868686"} onClick={handleEditModeoff} />
           
           </>
@@ -74,11 +74,13 @@ const Card: React.FC<CardProps> = ({ country, local, goal, flag, id }) => {
               size={24}
               color={"#868686"}
               onClick={handleEditModeOn}
+              data-testid="editButton"
             />
             <MdClose
               size={24}
               color={"#868686"}
               onClick={() => handleRemoveCard(id)}
+              data-testid="deleteButton"
             />
           </>
         )}
@@ -94,7 +96,7 @@ const Card: React.FC<CardProps> = ({ country, local, goal, flag, id }) => {
       <div className="meta-info">
         {isEditing ? (
           <>
-            <input type="text" defaultValue={local} ref={inputEditLocalRef} />
+            <input data-testid="input-edit" type="text" defaultValue={local} ref={inputEditLocalRef} />
             <InputMask
             onChange={(e)=>setGoalInput(e.target.value)}
             type="text"
@@ -103,6 +105,7 @@ const Card: React.FC<CardProps> = ({ country, local, goal, flag, id }) => {
             mask="99/9999"
             defaultValue={goal}
             required
+            data-testid="input-edit"
             
           />
           </>

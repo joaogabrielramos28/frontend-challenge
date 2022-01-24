@@ -1,13 +1,6 @@
 {
   "cards": [
     {
-      "country": "Estados Unidos",
-      "flag": "https://flagcdn.com/us.svg",
-      "local": "Tampa",
-      "goal": "05/2022",
-      "id": 5
-    },
-    {
       "flag": "https://flagcdn.com/br.svg",
       "country": "Brasil",
       "local": "Rio de Janeiro",

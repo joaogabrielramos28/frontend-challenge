@@ -75,13 +75,13 @@ const SearchSection: React.FC = () => {
 
   return (
     <Container>
-      <form onSubmit={handleAddGoal}>
+      <form onSubmit={handleAddGoal} data-testid="form-add-goal">
         <InputContainer>
           <label htmlFor="country">País</label>
-          <select ref={inputCountryRef} id="country" required>
-            <option value="">Selecione ...</option>
+          <select ref={inputCountryRef} id="country" required data-testid="country">
+            <option data-testid="default" value="">Selecione ...</option>
             {countries.map((country) => (
-              <option value={country.translations.br} key={country.numericCode}>
+              <option data-testid={country.translations.br} value={country.translations.br} key={country.numericCode}>
                 {country.translations.br}
               </option>
             ))}
@@ -90,6 +90,7 @@ const SearchSection: React.FC = () => {
         <InputContainer>
           <label htmlFor="local">Local</label>
           <input
+            data-testid="local"
             ref={inputLocalRef}
             type="text"
             id="local"
@@ -101,6 +102,7 @@ const SearchSection: React.FC = () => {
           <label htmlFor="goal">Meta</label>
 
           <InputMask
+            data-testid="goal"
             onChange={(e) => setGoalInput(e.target.value)}
             type="text"
             id="goal"
