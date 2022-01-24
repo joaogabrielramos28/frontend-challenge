@@ -1,7 +1,6 @@
-import { fireEvent, render, screen, waitFor,cleanup } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Card from "./index";
-
 
 describe("Card component", () => {
   it("Should show all goal info", async () => {
@@ -39,25 +38,6 @@ describe("Card component", () => {
     expect(editBtn).toBeInTheDocument();
   });
 
-//   it("Should delete goal card", () => {
-//     render(
-//       <Card
-//         country="Brasil"
-//         flag="https://flagcdn.com/br.svg"
-//         goal="12/2022"
-//         id={1}
-//         local="Rio de Janeiro"
-//       />
-//     );
-
-//     const deleteButton = screen.getByTestId("deleteButton");
-
-//     fireEvent.click(deleteButton);
-
-    
-//     expect(screen.queryByText("Brasil")).not.toBeInTheDocument();
-    
-//   });
 
   it("should enter in edit mode", () => {
     render(
@@ -76,27 +56,4 @@ describe("Card component", () => {
 
     expect(screen.getAllByTestId("input-edit").length).toBe(2);
   });
-
-  //   it("Should can edit goal card", async () => {
-  //     render(
-  //       <Card
-  //         country="Brasil"
-  //         flag="https://flagcdn.com/br.svg"
-  //         goal="12/2022"
-  //         id={1}
-  //         local="Rio de Janeiro"
-  //       />
-  //     );
-  //     const editBtn = screen.getByTestId("editButton");
-  //     fireEvent.click(editBtn);
-  //     const saveBtn = screen.getByTestId("saveButton");
-  //     const inputs = screen.getAllByTestId("input-edit");
-
-  //     userEvent.type(inputs[0], "São Paulo");
-  //     userEvent.type(inputs[1], "05/2025");
-
-  //     fireEvent.click(saveBtn);
-  //     await waitFor(() => {
-  //       expect(screen.getByText("Local: São Paulo")).toBeInTheDocument();
-  //     });
 });
