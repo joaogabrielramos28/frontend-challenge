@@ -1,7 +1,19 @@
 # Desafio de Frontend
-
 <img src="./img/logo-clubpetro.png"
      alt="Clubpetro" width="300">
+
+## Como rodar o projeto
+### `yarn start`
+  A aplicação será executada na porta 3000 [http://localhost:3000](http://localhost:3000)
+ 
+
+### `yarn server`
+  O JSON server sera executado na porta 3333 [http://localhost:3333](http://localhost:3333)
+
+
+### `yarn test`
+  Para executar os testes
+
 
 - [Descrição](#descrição)
   - [O Desafio](#o-desafio)
@@ -9,9 +21,14 @@
   - [Bônus](#bônus)
 - [Submissão e Prazo de Entrega](#submissão-e-prazo-de-entrega)
 
+
+
 ## Descrição
 
 Este desafio tem como objetivo avaliar as habilidades técnicas do canditado a vaga de desenvolvedor frontend no Clubpetro.
+
+
+
 
 #### O Desafio
 
